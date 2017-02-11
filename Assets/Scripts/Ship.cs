@@ -95,19 +95,16 @@ public class Ship : MonoBehaviour {
   void LimitRotation(){
 
     if (rigidShip.angularVelocity > maxAngularVelocity){
-
-      print("limit left");
       rigidShip.angularVelocity = maxAngularVelocity;
     } else if (rigidShip.angularVelocity < (maxAngularVelocity * -1)){
-      print("limit right");
       rigidShip.angularVelocity = maxAngularVelocity * -1;
     }
   }
 
   void OnTriggerEnter2D(Collider2D other) {
     if (other.gameObject.tag == "Coin"){
-      Destroy(other.gameObject);
-      game.coins += 1;
+      other.gameObject.SetActive(false);
+      game.coins.Add(other.gameObject);
     }
   }
 

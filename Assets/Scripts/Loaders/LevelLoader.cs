@@ -17,6 +17,7 @@ public class LevelLoader : MonoBehaviour {
   }
 
   void Restart(){
+    ReactivateItems();
     game.ResetAttributes();
     ship.GetComponent<Ship>().Reset();
   }
@@ -26,6 +27,12 @@ public class LevelLoader : MonoBehaviour {
      {
        Restart();
      }
+  }
+
+  void ReactivateItems(){
+    for (int i = 0; i < game.coins.Count; i++) {
+      game.coins[i].SetActive(true);
+    }
   }
 
   void SpawnShip(){

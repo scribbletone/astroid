@@ -12,8 +12,7 @@ public partial class GameManager : MonoBehaviour {
   public float fuel = 100f;
   public float maxFuel = 100f;
   public Vector3 shipSpawnPoint;
-  public int coins = 0;
-
+  public List<GameObject> coins = new List<GameObject>();
 
   void Awake(){
     if (instance == null){
@@ -30,7 +29,7 @@ public partial class GameManager : MonoBehaviour {
   public void ResetAttributes(){
     fuel = maxFuel;
     clock = 0f;
-    coins = 0;
+    coins = new List<GameObject>();
   }
 
   void Update(){

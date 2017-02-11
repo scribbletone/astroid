@@ -34,7 +34,7 @@ public class LevelUI : MonoBehaviour {
 
   void UpdateCoins() {
     if (coinsText) {
-      coinsText.text = "Coins: " + game.coins;
+      coinsText.text = "Coins: " + game.coins.Count;
     }
   }
 }
