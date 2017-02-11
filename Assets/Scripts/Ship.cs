@@ -33,6 +33,13 @@ public class Ship : MonoBehaviour {
     InitShipAttributes();
   }
 
+  public void Reset(){
+    rigidShip.velocity = Vector3.zero;
+    rigidShip.angularVelocity = 0;
+    transform.eulerAngles = new Vector3(0, 0, 0);
+    transform.position = game.shipSpawnPoint;
+  }
+
   void InitShipAttributes(){
     game.maxFuel = initMaxFuel;
     game.fuel = initFuel;
@@ -47,17 +54,17 @@ public class Ship : MonoBehaviour {
       rigidShip.AddTorque(torque * horizontalForce * -1f);
 
       rigidShip.velocity = Vector3.ClampMagnitude(rigidShip.velocity, maxVelocity * speedBoost);
-      limitRotation();
+      LimitRotation();
 
       if (verticalForce > 0){
         animator.SetTrigger("shipThrusting");
-        adjustFuel(-1f);
+        AdjustFuel(-1f);
       } else if (horizontalForce < 0){
         animator.SetTrigger("shipRotatingLeft");
-        adjustFuel(-0.25f);
+        AdjustFuel(-0.05f);
       } else if (horizontalForce > 0){
         animator.SetTrigger("shipRotatingRight");
-        adjustFuel(-0.25f);
+        AdjustFuel(-0.05f);
       } else {
         animator.SetTrigger("shipStopThrusting");
       } 
@@ -67,7 +74,7 @@ public class Ship : MonoBehaviour {
     }
   }
 
-  void adjustFuel(float inAmount){
+  void AdjustFuel(float inAmount){
     float newFuelLevel = (inAmount / 20) + game.fuel;
 
     if (newFuelLevel > game.maxFuel) {
@@ -85,17 +92,28 @@ public class Ship : MonoBehaviour {
     game.fuel = newFuelLevel;
   }
 
-  void limitRotation(){
+  void LimitRotation(){
+
     if (rigidShip.angularVelocity > maxAngularVelocity){
+
+      print("limit left");
       rigidShip.angularVelocity = maxAngularVelocity;
     } else if (rigidShip.angularVelocity < (maxAngularVelocity * -1)){
+      print("limit right");
       rigidShip.angularVelocity = maxAngularVelocity * -1;
+    }
+  }
+
+  void OnTriggerEnter2D(Collider2D other) {
+    if (other.gameObject.tag == "Coin"){
+      Destroy(other.gameObject);
+      game.coins += 1;
     }
   }
 
   void OnTriggerStay2D(Collider2D other) {
     if (other.gameObject.tag == "FuelStation"){
-      adjustFuel(1f);
+      AdjustFuel(1f);
     }
   }
 

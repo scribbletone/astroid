@@ -7,6 +7,7 @@ using System;
 public class LevelUI : MonoBehaviour {
   public Text fuelText;
   public Text clockText;
+  public Text coinsText;
   private GameManager game;
 
   void Start (){
@@ -16,6 +17,7 @@ public class LevelUI : MonoBehaviour {
   void Update () {
     UpdateFuel();
     UpdateClock();
+    UpdateCoins();
   }
 
   void UpdateFuel() {
@@ -27,6 +29,12 @@ public class LevelUI : MonoBehaviour {
   void UpdateClock() {
     if (clockText) {
       clockText.text = "Time: " + Math.Round(game.clock, 0);
+    }
+  }
+
+  void UpdateCoins() {
+    if (coinsText) {
+      coinsText.text = "Coins: " + game.coins;
     }
   }
 }

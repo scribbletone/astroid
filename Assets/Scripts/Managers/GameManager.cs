@@ -12,6 +12,7 @@ public partial class GameManager : MonoBehaviour {
   public float fuel = 100f;
   public float maxFuel = 100f;
   public Vector3 shipSpawnPoint;
+  public int coins = 0;
 
 
   void Awake(){
@@ -24,6 +25,12 @@ public partial class GameManager : MonoBehaviour {
   }
 
   void Start(){
+  }
+
+  public void ResetAttributes(){
+    fuel = maxFuel;
+    clock = 0f;
+    coins = 0;
   }
 
   void Update(){
