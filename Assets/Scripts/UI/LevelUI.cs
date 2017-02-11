@@ -11,8 +11,6 @@ public class LevelUI : MonoBehaviour {
 
   void Start (){
     game = GameManager.instance;
-    // fuelText = GameObject.Find("FuelText").GetComponent<Text>();
-    // clockText = GameObject.Find("ClockText").GetComponent<Text>();
   }
 
   void Update () {
