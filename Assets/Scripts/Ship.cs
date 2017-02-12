@@ -46,7 +46,7 @@ public class Ship : MonoBehaviour {
   }
 
   void FixedUpdate() { 
-    verticalForce = Input.GetAxis ("Vertical");
+    verticalForce = ForwardThrust();
     horizontalForce = Input.GetAxis ("Horizontal");
 
     if (game.fuel > 0) {
@@ -72,6 +72,17 @@ public class Ship : MonoBehaviour {
     } else {
       animator.SetTrigger("shipStopThrusting");
     }
+  }
+
+  float ForwardThrust() {
+    bool active = Input.GetKey("joystick button 1") || Input.GetKey ("space");
+    float force = 0f;
+
+    if (active) {
+      force = 1f;
+    }
+
+    return force;
   }
 
   void AdjustFuel(float inAmount){

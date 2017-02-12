@@ -23,7 +23,7 @@ public class LevelLoader : MonoBehaviour {
   }
 
   void RestartListener(){
-    if( Input.GetKeyDown(KeyCode.R) )
+    if( Input.GetKeyDown(KeyCode.R) || Input.GetKey("joystick button 13") )
      {
        Restart();
      }
