@@ -9,8 +9,10 @@ public partial class GameManager : MonoBehaviour {
 
   public bool clockRunning = true;
   public float clock = 0f;
-  public float fuel = 100f;
-  public float maxFuel = 100f;
+  public float fuel = 10f;
+  public float maxFuel = 10f;
+  public float hull = 100f;
+  public float maxHull = 100f;
   public Vector3 shipSpawnPoint;
   public List<GameObject> coins = new List<GameObject>();
 
@@ -30,6 +32,7 @@ public partial class GameManager : MonoBehaviour {
     fuel = maxFuel;
     clock = 0f;
     coins = new List<GameObject>();
+    hull = maxHull;
   }
 
   void Update(){

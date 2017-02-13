@@ -27,7 +27,7 @@ public class Ship : MonoBehaviour {
   void Start () {
     animator = GetComponent<Animator>();
     refuelingAnimator = refuelingSprite.GetComponent<Animator>();
-    rigidShip = GetComponent<Rigidbody2D> ();
+    rigidShip = GetComponent<Rigidbody2D>();
     game = GameManager.instance;
     
     InitShipAttributes();
@@ -102,6 +102,20 @@ public class Ship : MonoBehaviour {
 
     game.fuel = newFuelLevel;
   }
+
+  public void AdjustHull(float inAmount){
+    float newHullLevel = game.hull + inAmount;
+
+    if (newHullLevel > game.maxHull) {
+      newHullLevel = game.maxHull;
+    } else if (newHullLevel < 0) {
+      newHullLevel = 0;
+    }
+
+    game.hull = newHullLevel;
+  }
+
+
 
   void LimitRotation(){
 

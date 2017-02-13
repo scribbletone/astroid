@@ -78,6 +78,7 @@
 -define:UNITY_EDITOR_OSX
 -define:UNITY_TEAM_LICENSE
 'Assets/Scripts/CameraController.cs'
+'Assets/Scripts/Enemies/Asteroid.cs'
 'Assets/Scripts/Items/ForceField.cs'
 'Assets/Scripts/Loaders/GameLoader.cs'
 'Assets/Scripts/Loaders/LevelLoader.cs'

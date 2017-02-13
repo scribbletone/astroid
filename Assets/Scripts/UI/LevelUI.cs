@@ -8,6 +8,7 @@ public class LevelUI : MonoBehaviour {
   public Text fuelText;
   public Text clockText;
   public Text coinsText;
+  public Text hullText;
   private GameManager game;
 
   void Start (){
@@ -18,6 +19,7 @@ public class LevelUI : MonoBehaviour {
     UpdateFuel();
     UpdateClock();
     UpdateCoins();
+    UpdateHull();
   }
 
   void UpdateFuel() {
@@ -35,6 +37,12 @@ public class LevelUI : MonoBehaviour {
   void UpdateCoins() {
     if (coinsText) {
       coinsText.text = "Coins: " + game.coins.Count;
+    }
+  }
+
+  void UpdateHull() {
+    if (hullText) {
+      hullText.text = "Hull: " + Math.Round(game.hull, 0) + "/" + game.maxHull;
     }
   }
 }
