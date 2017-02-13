@@ -33,21 +33,21 @@ public class Ship : MonoBehaviour {
     InitShipAttributes();
   }
 
-  public void Reset(){
+  public void Reset() {
     rigidShip.velocity = Vector3.zero;
     rigidShip.angularVelocity = 0;
     transform.eulerAngles = new Vector3(0, 0, 0);
     transform.position = game.shipSpawnPoint;
   }
 
-  void InitShipAttributes(){
+  void InitShipAttributes() {
     game.maxFuel = initMaxFuel;
     game.fuel = initFuel;
   }
 
   void FixedUpdate() { 
     verticalForce = ForwardThrust();
-    horizontalForce = Input.GetAxis ("Horizontal");
+    horizontalForce = Control.HorizontalVal();
 
     if (game.fuel > 0) {
       rigidShip.AddForce(transform.up * verticalForce * speed * speedBoost);
@@ -75,7 +75,7 @@ public class Ship : MonoBehaviour {
   }
 
   float ForwardThrust() {
-    bool active = Input.GetKey("joystick button 1") || Input.GetKey ("space");
+    bool active = Control.IsPressed("thrust");
     float force = 0f;
 
     if (active) {

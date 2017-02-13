@@ -6,10 +6,10 @@ public class LevelLoader : MonoBehaviour {
   public GameObject shipSpawnPointObject;
   private GameManager game;
 
-
   void Start(){
     game = GameManager.instance;
     SpawnShip();
+    game.ResetAttributes();
   }
 
   void Update(){
@@ -18,12 +18,12 @@ public class LevelLoader : MonoBehaviour {
 
   void Restart(){
     ReactivateItems();
-    game.ResetAttributes();
     ship.GetComponent<Ship>().Reset();
+    game.ResetAttributes();
   }
 
   void RestartListener(){
-    if( Input.GetKeyDown(KeyCode.R) || Input.GetKey("joystick button 13") )
+    if (Control.IsPressed("restart"))
      {
        Restart();
      }
@@ -36,9 +36,7 @@ public class LevelLoader : MonoBehaviour {
   }
 
   void SpawnShip(){
-    if (game.shipSpawnPoint == new Vector3(0,0,0)) {
-      InitSpawnPoint();
-    }
+    InitSpawnPoint();
     ship = Instantiate(ship, game.shipSpawnPoint, Quaternion.identity);
     game.focalObject = ship;
   }

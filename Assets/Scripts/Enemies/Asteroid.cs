@@ -6,12 +6,10 @@ public class Asteroid : MonoBehaviour {
 
   public float damage = -2f;
 
-  private GameManager game;
   private Vector3 spawnPoint;
   private Rigidbody2D rigidAsteroid;
 
 	void Start () {
-    game = GameManager.instance;
     spawnPoint = transform.position;
     rigidAsteroid = GetComponent<Rigidbody2D>();
 	}
@@ -26,7 +24,6 @@ public class Asteroid : MonoBehaviour {
   void OnCollisionEnter2D(Collision2D other) {
     if (other.gameObject.tag == "Player") {
       other.gameObject.GetComponent<Ship>().AdjustHull(damage);
-      print(game.hull);
     }
   }
 }

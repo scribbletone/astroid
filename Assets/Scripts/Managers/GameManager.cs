@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public partial class GameManager : MonoBehaviour {
   public static GameManager instance = null;
+  
+  public int level = 1;
+
   public GameObject focalObject;
 
   public bool clockRunning = true;
