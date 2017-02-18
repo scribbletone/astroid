@@ -31,13 +31,25 @@ public class Ship : MonoBehaviour {
     game = GameManager.instance;
     
     InitShipAttributes();
+    animator.SetTrigger("shipStopThrusting");
   }
 
   public void Reset() {
+    animator.SetTrigger("shipStopThrusting");
+    Halt();
+    rigidShip.constraints = RigidbodyConstraints2D.None;
+    transform.position = game.shipSpawnPoint;
+  }
+
+  void Halt(){
     rigidShip.velocity = Vector3.zero;
     rigidShip.angularVelocity = 0;
     transform.eulerAngles = new Vector3(0, 0, 0);
-    transform.position = game.shipSpawnPoint;
+  }
+
+  void Freeze(){
+    Halt();
+    rigidShip.constraints = RigidbodyConstraints2D.FreezeAll;
   }
 
   void InitShipAttributes() {
@@ -121,7 +133,9 @@ public class Ship : MonoBehaviour {
 
   public void handleExplode(){
     print("kapow");
-    game.RestartScene();
+    Freeze();
+    animator.SetTrigger("shipExploding");
+    // game.RestartScene();
   }
 
 
