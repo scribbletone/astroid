@@ -113,8 +113,16 @@ public class Ship : MonoBehaviour {
     }
 
     game.hull = newHullLevel;
+
+    if (game.hull <= 0){
+      handleExplode();
+    }
   }
 
+  public void handleExplode(){
+    print("kapow");
+    game.RestartScene();
+  }
 
 
   void LimitRotation(){
@@ -137,6 +145,18 @@ public class Ship : MonoBehaviour {
     if (other.gameObject.tag == "FuelStation"){
       AdjustFuel(1f);
     }
+  }
+
+  void OnCollisionEnter2D(Collision2D other) {
+
+    if (other.gameObject.tag == "Wall"){
+      float damage = other.relativeVelocity.magnitude;
+      damage = damage * damage * -1f;
+      if (damage > -1)
+        damage = 0;
+      AdjustHull(damage);
+    }
+    
   }
 
 }

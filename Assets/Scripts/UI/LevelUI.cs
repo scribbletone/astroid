@@ -5,11 +5,12 @@ using UnityEngine.UI;
 using System;
 
 public class LevelUI : MonoBehaviour {
-  public Text fuelText;
-  public Slider fuelBar;
   public Text clockText;
   public Text coinsText;
   public Text hullText;
+  public Slider fuelBar;
+  public Slider hullBar;
+
   private GameManager game;
 
   void Start (){
@@ -24,10 +25,6 @@ public class LevelUI : MonoBehaviour {
   }
 
   void UpdateFuel() {
-    if (fuelText) {
-      fuelText.text = "Fuel: " + Math.Round(game.fuel, 0) + "/" + game.maxFuel;
-    }
-
     if (fuelBar) {
       fuelBar.value = game.fuel / game.maxFuel;
     }
@@ -46,8 +43,8 @@ public class LevelUI : MonoBehaviour {
   }
 
   void UpdateHull() {
-    if (hullText) {
-      hullText.text = "Hull: " + Math.Round(game.hull, 0) + "/" + game.maxHull;
+    if (hullBar) {
+      hullBar.value = game.hull / game.maxHull;
     }
   }
 }

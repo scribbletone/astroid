@@ -7,6 +7,8 @@ public partial class GameManager : MonoBehaviour {
   public static GameManager instance = null;
   
   public int level = 1;
+  public delegate void RestartSceneDelegate(); 
+  public RestartSceneDelegate RestartScene;
 
   public GameObject focalObject;
 
@@ -14,8 +16,8 @@ public partial class GameManager : MonoBehaviour {
   public float clock = 0f;
   public float fuel = 10f;
   public float maxFuel = 10f;
-  public float hull = 100f;
-  public float maxHull = 100f;
+  public float hull = 50f;
+  public float maxHull = 50f;
   public Vector3 shipSpawnPoint;
   public List<GameObject> coins = new List<GameObject>();
 

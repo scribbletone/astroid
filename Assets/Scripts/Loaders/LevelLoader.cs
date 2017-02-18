@@ -10,6 +10,7 @@ public class LevelLoader : MonoBehaviour {
     game = GameManager.instance;
     SpawnShip();
     game.ResetAttributes();
+    game.RestartScene = Restart;
   }
 
   void Update(){
