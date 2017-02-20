@@ -8,7 +8,7 @@ public partial class GameManager : MonoBehaviour {
   
   public int level = 1;
   public delegate void RestartSceneDelegate(); 
-  public RestartSceneDelegate RestartScene;
+  public RestartSceneDelegate HandleRestartScene;
 
   public GameObject focalObject;
 
@@ -31,6 +31,15 @@ public partial class GameManager : MonoBehaviour {
   }
 
   void Start(){
+  }
+
+  public void RestartScene(float waitTime){
+    StartCoroutine(RestartSceneTimer(waitTime));
+  }
+
+  IEnumerator RestartSceneTimer(float waitTime){
+    yield return new WaitForSeconds(waitTime);
+    HandleRestartScene();
   }
 
   public void ResetAttributes(){

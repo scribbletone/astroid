@@ -10,7 +10,7 @@ public class LevelLoader : MonoBehaviour {
     game = GameManager.instance;
     SpawnShip();
     game.ResetAttributes();
-    game.RestartScene = Restart;
+    game.HandleRestartScene = Restart;
   }
 
   void Update(){
@@ -26,7 +26,7 @@ public class LevelLoader : MonoBehaviour {
   void RestartListener(){
     if (Control.IsPressed("restart"))
      {
-       Restart();
+       game.RestartScene(0);
      }
   }
 

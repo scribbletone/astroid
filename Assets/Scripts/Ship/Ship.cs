@@ -137,7 +137,7 @@ public partial class Ship : MonoBehaviour {
     Freeze();
     AnimateFuel(false);
     Animate("exploding");
-    // game.RestartScene();
+    game.RestartScene(2f);
   }
 
 
