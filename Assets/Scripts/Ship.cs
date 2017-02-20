@@ -13,6 +13,7 @@ public class Ship : MonoBehaviour {
   public float initFuel = 10f;
   public float initMaxFuel = 10f;
   public GameObject refuelingSprite;
+  public bool alive = true;
 
   private float speedBoost = 2f;
   private Rigidbody2D rigidShip;
@@ -31,20 +32,20 @@ public class Ship : MonoBehaviour {
     game = GameManager.instance;
     
     InitShipAttributes();
-    animator.SetTrigger("shipStopThrusting");
   }
 
   public void Reset() {
-    animator.SetTrigger("shipStopThrusting");
+    alive = true;
     Halt();
+    transform.eulerAngles = new Vector3(0, 0, 0);
     rigidShip.constraints = RigidbodyConstraints2D.None;
     transform.position = game.shipSpawnPoint;
+    animator.SetTrigger("shipIdle");
   }
 
   void Halt(){
     rigidShip.velocity = Vector3.zero;
     rigidShip.angularVelocity = 0;
-    transform.eulerAngles = new Vector3(0, 0, 0);
   }
 
   void Freeze(){
@@ -61,7 +62,7 @@ public class Ship : MonoBehaviour {
     verticalForce = ForwardThrust();
     horizontalForce = Control.HorizontalVal();
 
-    if (game.fuel > 0) {
+    if (game.fuel > 0 && alive) {
       rigidShip.AddForce(transform.up * verticalForce * speed * speedBoost);
       rigidShip.AddTorque(torque * horizontalForce * -1f);
 
@@ -78,11 +79,13 @@ public class Ship : MonoBehaviour {
         animator.SetTrigger("shipRotatingRight");
         AdjustFuel(-0.05f);
       } else {
-        animator.SetTrigger("shipStopThrusting");
+        animator.SetTrigger("shipIdle");
       } 
 
+    } else if (!alive) {
+      animator.SetTrigger("shipExploding");
     } else {
-      animator.SetTrigger("shipStopThrusting");
+      animator.SetTrigger("shipIdle");
     }
   }
 
@@ -106,10 +109,10 @@ public class Ship : MonoBehaviour {
       newFuelLevel = 0;
     }
 
-    if (game.fuel < game.maxFuel) {
-      if (inAmount > 0) {
-        refuelingAnimator.SetTrigger("refueling");
-      }
+    if (game.fuel < game.maxFuel && inAmount > 0) {
+      refuelingAnimator.SetBool("refueling", true);
+    } else {
+      refuelingAnimator.SetBool("refueling", false);
     }
 
     game.fuel = newFuelLevel;
@@ -133,7 +136,9 @@ public class Ship : MonoBehaviour {
 
   public void handleExplode(){
     print("kapow");
+    alive = false;
     Freeze();
+    refuelingAnimator.SetBool("refueling", false);
     animator.SetTrigger("shipExploding");
     // game.RestartScene();
   }
@@ -156,7 +161,7 @@ public class Ship : MonoBehaviour {
   }
 
   void OnTriggerStay2D(Collider2D other) {
-    if (other.gameObject.tag == "FuelStation"){
+    if (other.gameObject.tag == "FuelStation" && alive){
       AdjustFuel(1f);
     }
   }
