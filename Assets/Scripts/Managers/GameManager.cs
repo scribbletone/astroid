@@ -20,6 +20,7 @@ public partial class GameManager : MonoBehaviour {
   public float maxHull = 50f;
   public Vector3 shipSpawnPoint;
   public List<GameObject> coins = new List<GameObject>();
+  public bool shipRefueling = false;
 
   void Awake(){
     if (instance == null){

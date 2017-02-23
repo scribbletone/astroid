@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
      <Compile Include="Assets\Scripts\Mixins\Rotator.cs" />
      <Compile Include="Assets\Scripts\Mixins\Tiler.cs" />
+     <Compile Include="Assets\Scripts\Ship\FuelStation.cs" />
      <Compile Include="Assets\Scripts\Ship\Ship.cs" />
      <Compile Include="Assets\Scripts\Ship\ShipAnimations.cs" />
      <Compile Include="Assets\Scripts\UI\LevelTitleUI.cs" />

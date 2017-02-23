@@ -24,7 +24,6 @@ public partial class Ship : MonoBehaviour {
   private Animator refuelingAnimator;
   private GameManager game;
 
-
   void Start () {
     animator = GetComponent<Animator>();
     refuelingAnimator = refuelingSprite.GetComponent<Animator>();
@@ -59,10 +58,19 @@ public partial class Ship : MonoBehaviour {
   }
 
   void FixedUpdate() { 
-    verticalForce = ForwardThrust();
-    horizontalForce = Control.HorizontalVal();
+    MoveShipFromInput();
+  }
 
-    if (game.fuel > 0 && alive) {
+  void MoveShipFromInput(){
+    if (alive) {
+      verticalForce = ForwardThrust();
+      horizontalForce = Control.HorizontalVal();
+
+      if (game.fuel <= 0) {
+        verticalForce = 0;
+        horizontalForce = horizontalForce * 0.1f;
+      }
+
       rigidShip.AddForce(transform.up * verticalForce * speed * speedBoost);
       rigidShip.AddTorque(torque * horizontalForce * -1f);
 
@@ -74,16 +82,11 @@ public partial class Ship : MonoBehaviour {
         AdjustFuel(-1f);
       } else if (horizontalForce < 0){
         Animate("rotatingLeft");
-        AdjustFuel(-0.05f);
       } else if (horizontalForce > 0){
         Animate("rotatingRight");
-        AdjustFuel(-0.05f);
       } else {
         Animate("idle");
       } 
-
-    } else if (alive) {
-      Animate("idle");
     }
   }
 
@@ -108,9 +111,9 @@ public partial class Ship : MonoBehaviour {
     }
 
     if (game.fuel < game.maxFuel && inAmount > 0) {
-      AnimateFuel(true);
+      game.shipRefueling = true;
     } else {
-      AnimateFuel(false);
+      game.shipRefueling = false;
     }
 
     game.fuel = newFuelLevel;
@@ -135,11 +138,10 @@ public partial class Ship : MonoBehaviour {
   public void handleExplode(){
     alive = false;
     Freeze();
-    AnimateFuel(false);
+    game.shipRefueling = false;
     Animate("exploding");
     game.RestartScene(2f);
   }
-
 
   void LimitRotation(){
 
@@ -154,6 +156,15 @@ public partial class Ship : MonoBehaviour {
     if (other.gameObject.tag == "Coin"){
       other.gameObject.SetActive(false);
       game.coins.Add(other.gameObject);
+    }
+    if (other.gameObject.tag == "FuelStation"){
+      other.GetComponent<FuelStation>().shipTouching = true;
+    }
+  }
+
+  void OnTriggerExit2D(Collider2D other) {
+    if (other.gameObject.tag == "FuelStation"){
+      other.GetComponent<FuelStation>().shipTouching = false;
     }
   }
 
