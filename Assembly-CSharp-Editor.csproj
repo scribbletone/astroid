@@ -46,10 +46,40 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Editor\NewTileMapMenu.cs" />
- <Reference Include="UnityEngine.Purchasing">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
- </Reference>
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\TiledImporter\Editor\TmxImage.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\TiledImporter\Editor\TmxImporter.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\TiledImporter\Editor\TmxLayer.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\TiledImporter\Editor\TmxLayerTile.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\TiledImporter\Editor\TmxMap.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\TiledImporter\Editor\TmxPostProcessor.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\TiledImporter\Editor\TmxTile.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\TiledImporter\Editor\TmxTileProperty.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\TiledImporter\Editor\TmxTilemap.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\TiledImporter\Editor\TmxTileset.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\TiledImporter\Editor\XMLSerializable.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Brush\Editor\A2X2BrushEditor.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Brush\Editor\AnimBrushEditor.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Brush\Editor\CarpetBrushEditor.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Brush\Editor\RandomBrushEditor.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Brush\Editor\RoadBrushEditor.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Brush\Editor\TilesetBrushEditor.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\AtlasEditorWindow.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\BrushTileGridControl.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\STEditorStyles.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\STEditorToolbars.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\ShortcutKeys.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\SortingLayerPropertyDrawer.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\TilePropertiesControl.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\TilePropertiesWindow.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\TileSelectionWindow.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\TilemapEditor.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\TilemapGroupEditor.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\TilesetControl.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\TilesetEditor.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\ToolIcons.cs" />
+     <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Tilemap\Editor\ToolbarControl.cs" />
+     <None Include="Assets\CreativeSpore\SuperTilemapEditor\Extra\Tileset - Samples\Tiled - Tmx Import\license.txt" />
+     <None Include="Assets\CreativeSpore\SuperTilemapEditor\changelog.txt" />
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
@@ -73,9 +103,6 @@
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
