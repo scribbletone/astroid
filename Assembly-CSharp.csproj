@@ -75,6 +75,7 @@
      <Compile Include="Assets\CreativeSpore\SuperTilemapEditor\Scripts\Utils\TilemapUtils.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\Enemies\Asteroid.cs" />
+     <Compile Include="Assets\Scripts\Items\Coin.cs" />
      <Compile Include="Assets\Scripts\Items\ForceField.cs" />
      <Compile Include="Assets\Scripts\Loaders\GameLoader.cs" />
      <Compile Include="Assets\Scripts\Loaders\LevelLoader.cs" />
@@ -85,6 +86,7 @@
      <Compile Include="Assets\Scripts\Ship\FuelStation.cs" />
      <Compile Include="Assets\Scripts\Ship\Ship.cs" />
      <Compile Include="Assets\Scripts\Ship\ShipAnimations.cs" />
+     <Compile Include="Assets\Scripts\Ship\Walls.cs" />
      <Compile Include="Assets\Scripts\UI\LevelTitleUI.cs" />
      <Compile Include="Assets\Scripts\UI\LevelUI.cs" />
      <Compile Include="Assets\Scripts\Utils\Control.cs" />

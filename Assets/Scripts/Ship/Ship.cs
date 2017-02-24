@@ -175,7 +175,6 @@ public partial class Ship : MonoBehaviour {
   }
 
   void OnCollisionEnter2D(Collision2D other) {
-
     if (other.gameObject.tag == "Wall"){
       float damage = other.relativeVelocity.magnitude;
       damage = damage * damage * -1f;

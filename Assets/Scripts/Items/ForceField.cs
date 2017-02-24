@@ -9,10 +9,14 @@ public class ForceField : MonoBehaviour {
 	void Start () {
     game = GameManager.instance;	
 	}
-	
+
 	void Update () {
     if (game.coins.Count >= unlockAt) {
       gameObject.SetActive(false);
     }
 	}
+
+  public void Reset () {
+    gameObject.SetActive(true);
+  }
 }

@@ -4,6 +4,9 @@ using System.Collections;
 public class LevelLoader : MonoBehaviour {
   public GameObject ship;
   public GameObject shipSpawnPointObject;
+  public GameObject coins;
+  public GameObject forceFields;
+
   private GameManager game;
 
   void Start(){
@@ -18,7 +21,8 @@ public class LevelLoader : MonoBehaviour {
   }
 
   void Restart(){
-    ReactivateItems();
+    ResetCoins();
+    ResetForceFields();
     ship.GetComponent<Ship>().Reset();
     game.ResetAttributes();
   }
@@ -30,9 +34,18 @@ public class LevelLoader : MonoBehaviour {
      }
   }
 
-  void ReactivateItems(){
-    for (int i = 0; i < game.coins.Count; i++) {
-      game.coins[i].SetActive(true);
+  void ResetCoins(){
+    Coin[] coinList = coins.GetComponentsInChildren<Coin>(true);
+
+    foreach(Coin coin in coinList) {
+      coin.Reset();
+    }
+  }
+
+  void ResetForceFields(){
+    ForceField[] forceFieldList = forceFields.GetComponentsInChildren<ForceField>(true);
+    foreach(ForceField forceField in forceFieldList) {
+      forceField.Reset();
     }
   }
 
