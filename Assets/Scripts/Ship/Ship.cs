@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using CreativeSpore.SuperTilemapEditor;
 
 public partial class Ship : MonoBehaviour {
 
@@ -175,7 +176,8 @@ public partial class Ship : MonoBehaviour {
   }
 
   void OnCollisionEnter2D(Collision2D other) {
-    if (other.gameObject.tag == "Wall"){
+    Tilemap tilemap = other.gameObject.GetComponentInParent<Tilemap>();
+    if (tilemap != null){
       float damage = other.relativeVelocity.magnitude;
       damage = damage * damage * -1f;
       if (damage > -1)
