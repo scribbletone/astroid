@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour {
   private Vector3 focalPoint;
   private Vector3 offset;
   private int shakeCount = 0;
-  private float shakeIntensity = 0.05f;
+  private float shakeIntensity = 0.1f;
 
   void Start () 
   {

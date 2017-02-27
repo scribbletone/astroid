@@ -107,6 +107,7 @@ public partial class Ship : MonoBehaviour {
   }
 
   public void AdjustFuel(float inAmount){
+    return;
     float newFuelLevel = (inAmount / 20) + game.fuel;
 
     if (newFuelLevel > game.maxFuel) {
@@ -125,6 +126,7 @@ public partial class Ship : MonoBehaviour {
   }
 
   public void AdjustHull(float inAmount){
+    return;
     float newHullLevel = game.hull + inAmount;
 
     if (newHullLevel > game.maxHull) {
