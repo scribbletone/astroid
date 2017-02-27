@@ -26,6 +26,9 @@ public partial class GameManager : MonoBehaviour {
   public delegate void ResetSceneEvent();
   public static event ResetSceneEvent resetSceneEvent;
 
+  public delegate void MajorDamageTakenEvent();
+  public static event MajorDamageTakenEvent majorDamageTakenEvent;
+
   void Awake(){
     if (instance == null){
       instance = this;
@@ -70,6 +73,12 @@ public partial class GameManager : MonoBehaviour {
       coinAddedEvent(coin);  
     }
     coin.SetActive(false);
+  }
+
+  public void HandleTakeMajorDamage(){
+     if (majorDamageTakenEvent != null) {
+      majorDamageTakenEvent();
+    }
   }
 
   public Vector3 FocalPoint(){

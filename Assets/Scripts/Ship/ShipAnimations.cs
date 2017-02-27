@@ -19,7 +19,6 @@ public partial class Ship : MonoBehaviour {
   }
 
   void AnimateDamage() {
-    print("damage");
     // animator.SetTrigger("takeDamage");
     animator.Play("Ship-1-Damage");
   }

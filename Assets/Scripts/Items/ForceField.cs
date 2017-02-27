@@ -8,6 +8,7 @@ public class ForceField : MonoBehaviour {
   public float activeTime = 1f;
   public float inactiveTime = 1f;
 
+  private GameManager game;
   private Animator animator;
   private Renderer renderer;
   private IEnumerator coroutine;
@@ -16,6 +17,7 @@ public class ForceField : MonoBehaviour {
   private bool firstActivation = true;
 
 	void Start () {
+    game = GameManager.instance;
     animator = GetComponent<Animator>();
     renderer = GetComponent<Renderer>();
     GameManager.coinAddedEvent += HandleCoinAdded;
@@ -55,7 +57,6 @@ public class ForceField : MonoBehaviour {
   }
 
   private IEnumerator Flicker() {
-    print("flicker");
     while (true) {
       float waitTime = inactiveTime;
 
@@ -109,6 +110,7 @@ public class ForceField : MonoBehaviour {
     if (other.gameObject.tag == "Player") {
       Ship ship = other.gameObject.GetComponent<Ship>();
       ship.AdjustHull(-50f);
+      game.HandleTakeMajorDamage();
     }
   }
 
