@@ -25,9 +25,6 @@ public class LevelLoader : MonoBehaviour {
   }
 
   void Reset(){
-    // ResetCoins();
-    // ResetForceFields();
-    // ship.GetComponent<Ship>().Reset();
     game.ResetAttributes();
   }
 

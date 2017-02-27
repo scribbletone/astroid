@@ -12,17 +12,9 @@ public class FuelStation : MonoBehaviour {
     animator = GetComponent<Animator>();
 	}
 
-  void OnTriggerEnter2D(Collider2D other) {
-    if (other.gameObject.tag == "Player"){
-      animator.SetBool("refueling", true);
-    }
-  }
-
   void OnTriggerExit2D(Collider2D other) {
     if (other.gameObject.tag == "Player"){
-      if (other.gameObject.tag == "Player"){
-        animator.SetBool("refueling", false);
-      }
+      animator.SetBool("refueling", false);
     }
   }
 
@@ -32,6 +24,12 @@ public class FuelStation : MonoBehaviour {
 
       if (ship.alive) {
         ship.AdjustFuel(1f);
+      }
+
+      if (game.shipRefueling) {
+        animator.SetBool("refueling", true);
+      } else {
+        animator.SetBool("refueling", false);
       }
     }
   }

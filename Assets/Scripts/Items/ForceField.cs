@@ -9,9 +9,9 @@ public class ForceField : MonoBehaviour {
 
 	void Start () {
     animator = GetComponent<Animator>();
-    SetAnimatorColor();
     GameManager.coinAddedEvent += HandleCoinAdded;
     GameManager.resetSceneEvent += Reset;
+    Reset();
 	}
 
   void OnDestroy() {
@@ -20,8 +20,10 @@ public class ForceField : MonoBehaviour {
   }
 
   public void Reset () {
+    SetAnimatorColor();
     gameObject.SetActive(true);
     SetColliderStatus(true);
+    animator.SetBool("active", true);
   }
 
   void SetAnimatorColor(){
@@ -49,8 +51,13 @@ public class ForceField : MonoBehaviour {
 
   void HandleCoinAdded(GameObject coin){
     if (color == coin.GetComponent<Coin>().color) {
-      SetColliderStatus(false);
+      Deactivate();
     }
+  }
+
+  void Deactivate(){
+    SetColliderStatus(false);
+    // animator.SetBool("active", false);
   }
 
 }
