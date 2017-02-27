@@ -3,25 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ForceField : MonoBehaviour {
-  public int unlockAt = 10;
   public string color = "red";
 
-  private GameManager game;
   private Animator animator;
 
-  void OnEnable(){
-    GameManager.coinAddedEvent += HandleCoinAdded;
-  }
-
-  void OnDisable() {
-     GameManager.coinAddedEvent -= HandleCoinAdded;
-  }
-
 	void Start () {
-    game = GameManager.instance;
     animator = GetComponent<Animator>();
     SetAnimatorColor();
+    GameManager.coinAddedEvent += HandleCoinAdded;
+    GameManager.resetSceneEvent += Reset;
 	}
+
+  void OnDestroy() {
+     GameManager.coinAddedEvent -= HandleCoinAdded;
+     GameManager.resetSceneEvent -= Reset;
+  }
 
   public void Reset () {
     gameObject.SetActive(true);
@@ -47,7 +43,6 @@ public class ForceField : MonoBehaviour {
 
   public void SetColliderStatus(bool status) {
     foreach(BoxCollider2D c in GetComponents<BoxCollider2D>()) {
-      print(c);
       c.enabled = status;
     }
   }

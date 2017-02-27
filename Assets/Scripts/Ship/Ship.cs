@@ -25,6 +25,9 @@ public partial class Ship : MonoBehaviour {
   private Animator refuelingAnimator;
   private GameManager game;
 
+  void OnDestroy() {     GameManager.resetSceneEvent -= Reset;
+  }
+
   void Start () {
     animator = GetComponent<Animator>();
     refuelingAnimator = refuelingSprite.GetComponent<Animator>();
@@ -32,6 +35,7 @@ public partial class Ship : MonoBehaviour {
     game = GameManager.instance;
     
     InitShipAttributes();
+    GameManager.resetSceneEvent += Reset;
   }
 
   public void Reset() {
@@ -102,7 +106,7 @@ public partial class Ship : MonoBehaviour {
     return force;
   }
 
-  void AdjustFuel(float inAmount){
+  public void AdjustFuel(float inAmount){
     float newFuelLevel = (inAmount / 20) + game.fuel;
 
     if (newFuelLevel > game.maxFuel) {
@@ -141,7 +145,7 @@ public partial class Ship : MonoBehaviour {
     Freeze();
     game.shipRefueling = false;
     Animate("exploding");
-    game.RestartScene(2f);
+    game.ResetScene(2f);
   }
 
   void LimitRotation(){
@@ -150,27 +154,6 @@ public partial class Ship : MonoBehaviour {
       rigidShip.angularVelocity = maxAngularVelocity;
     } else if (rigidShip.angularVelocity < (maxAngularVelocity * -1)){
       rigidShip.angularVelocity = maxAngularVelocity * -1;
-    }
-  }
-
-  void OnTriggerEnter2D(Collider2D other) {
-    if (other.gameObject.tag == "Coin"){
-      game.AddCoin(other.gameObject);
-    }
-    if (other.gameObject.tag == "FuelStation"){
-      other.GetComponent<FuelStation>().shipTouching = true;
-    }
-  }
-
-  void OnTriggerExit2D(Collider2D other) {
-    if (other.gameObject.tag == "FuelStation"){
-      other.GetComponent<FuelStation>().shipTouching = false;
-    }
-  }
-
-  void OnTriggerStay2D(Collider2D other) {
-    if (other.gameObject.tag == "FuelStation" && alive){
-      AdjustFuel(1f);
     }
   }
 

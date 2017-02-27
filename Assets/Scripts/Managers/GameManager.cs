@@ -7,8 +7,6 @@ public partial class GameManager : MonoBehaviour {
   public static GameManager instance = null;
   
   public int level = 1;
-  public delegate void RestartSceneDelegate(); 
-  public RestartSceneDelegate HandleRestartScene;
   
   public GameObject focalObject;
 
@@ -25,6 +23,9 @@ public partial class GameManager : MonoBehaviour {
   public delegate void CoinAddedEvent(GameObject coin);
   public static event CoinAddedEvent coinAddedEvent;
 
+  public delegate void ResetSceneEvent();
+  public static event ResetSceneEvent resetSceneEvent;
+
   void Awake(){
     if (instance == null){
       instance = this;
@@ -34,16 +35,16 @@ public partial class GameManager : MonoBehaviour {
     DontDestroyOnLoad(gameObject);
   }
 
-  void Start(){
+  public void ResetScene(float waitTime){
+    StartCoroutine(ResetSceneTimer(waitTime));
   }
 
-  public void RestartScene(float waitTime){
-    StartCoroutine(RestartSceneTimer(waitTime));
-  }
-
-  IEnumerator RestartSceneTimer(float waitTime){
+  IEnumerator ResetSceneTimer(float waitTime){
     yield return new WaitForSeconds(waitTime);
-    HandleRestartScene();
+
+    if (resetSceneEvent != null) {
+      resetSceneEvent();
+    }
   }
 
   public void ResetAttributes(){

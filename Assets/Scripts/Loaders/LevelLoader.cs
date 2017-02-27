@@ -13,24 +13,28 @@ public class LevelLoader : MonoBehaviour {
     game = GameManager.instance;
     SpawnShip();
     game.ResetAttributes();
-    game.HandleRestartScene = Restart;
+    GameManager.resetSceneEvent += Reset;
+  }
+
+  void OnDestroy() {
+    GameManager.resetSceneEvent -= Reset;
   }
 
   void Update(){
-    RestartListener();
+    ResetListener();
   }
 
-  void Restart(){
-    ResetCoins();
-    ResetForceFields();
-    ship.GetComponent<Ship>().Reset();
+  void Reset(){
+    // ResetCoins();
+    // ResetForceFields();
+    // ship.GetComponent<Ship>().Reset();
     game.ResetAttributes();
   }
 
-  void RestartListener(){
+  void ResetListener(){
     if (Control.IsPressed("restart"))
      {
-       game.RestartScene(0);
+       game.ResetScene(0);
      }
   }
 

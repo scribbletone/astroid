@@ -6,15 +6,22 @@ public class Coin : MonoBehaviour {
 
   public string color = "red";
 
+  private GameManager game;
   private Animator animator;
 
   void Start(){
+    game = GameManager.instance;
     animator = GetComponent<Animator>();
     SetAnimatorColor();
+    GameManager.resetSceneEvent += Reset;
+  }
+
+  void OnDestroy() {     GameManager.resetSceneEvent -= Reset;
   }
 
 	public void Reset(){
     gameObject.SetActive(true);
+    SetAnimatorColor();
   }
 
   void SetAnimatorColor(){
@@ -31,6 +38,12 @@ public class Coin : MonoBehaviour {
       default: // red
         animator.SetInteger("colorIndex", 0);
         break;
+    }
+  }
+
+  void OnTriggerEnter2D(Collider2D other) {
+    if (other.gameObject.tag == "Player"){
+      game.AddCoin(gameObject);
     }
   }
 }
