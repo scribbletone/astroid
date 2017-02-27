@@ -137,6 +137,8 @@ public partial class Ship : MonoBehaviour {
 
     if (game.hull <= 0){
       handleExplode();
+    } else if (inAmount < 0) {
+      AnimateDamage();
     }
   }
 

@@ -105,4 +105,11 @@ public class ForceField : MonoBehaviour {
     }
   }
 
+  void OnCollisionEnter2D(Collision2D other) {
+    if (other.gameObject.tag == "Player") {
+      Ship ship = other.gameObject.GetComponent<Ship>();
+      ship.AdjustHull(-50f);
+    }
+  }
+
 }
