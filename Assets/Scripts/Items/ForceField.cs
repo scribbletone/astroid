@@ -4,14 +4,25 @@ using UnityEngine;
 
 public class ForceField : MonoBehaviour {
   public string color = "red";
+  public float offsetTime = 0f;
+  public float activeTime = 1f;
+  public float inactiveTime = 1f;
 
   private Animator animator;
+  private Renderer renderer;
+  private IEnumerator coroutine;
+  private int flickerFrame = 1;
+  private bool visible = true;
+  private bool firstActivation = true;
 
 	void Start () {
     animator = GetComponent<Animator>();
+    renderer = GetComponent<Renderer>();
     GameManager.coinAddedEvent += HandleCoinAdded;
     GameManager.resetSceneEvent += Reset;
     Reset();
+    coroutine = Flicker();
+    StartCoroutine(coroutine);
 	}
 
   void OnDestroy() {
@@ -22,8 +33,8 @@ public class ForceField : MonoBehaviour {
   public void Reset () {
     SetAnimatorColor();
     gameObject.SetActive(true);
-    SetColliderStatus(true);
-    animator.SetBool("active", true);
+    firstActivation = true;
+    Reactivate();
   }
 
   void SetAnimatorColor(){
@@ -43,6 +54,45 @@ public class ForceField : MonoBehaviour {
     }
   }
 
+  private IEnumerator Flicker() {
+    print("flicker");
+    while (true) {
+      float waitTime = inactiveTime;
+
+      if (visible)
+        waitTime = activeTime;
+
+      if (firstActivation) {
+        waitTime += offsetTime;
+        firstActivation = false;
+      }
+
+      yield return new WaitForSeconds(waitTime);
+      Toggle();
+    }
+  }
+
+  void Toggle(){
+    if (visible) {
+      Deactivate();
+    } else {
+      Reactivate();
+    }
+  }
+
+  void Reactivate (){
+    SetColliderStatus(true);
+    renderer.enabled = true;
+    visible = true;
+  }
+
+  void Deactivate (){
+    SetColliderStatus(false);
+    renderer.enabled = false;
+    visible = false;
+    // animator.SetBool("active", false);
+  }
+
   public void SetColliderStatus(bool status) {
     foreach(BoxCollider2D c in GetComponents<BoxCollider2D>()) {
       c.enabled = status;
@@ -53,11 +103,6 @@ public class ForceField : MonoBehaviour {
     if (color == coin.GetComponent<Coin>().color) {
       Deactivate();
     }
-  }
-
-  void Deactivate(){
-    SetColliderStatus(false);
-    // animator.SetBool("active", false);
   }
 
 }
