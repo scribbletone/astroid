@@ -9,7 +9,7 @@ public partial class GameManager : MonoBehaviour {
   public int level = 1;
   public delegate void RestartSceneDelegate(); 
   public RestartSceneDelegate HandleRestartScene;
-
+  
   public GameObject focalObject;
 
   public bool clockRunning = true;
@@ -21,6 +21,9 @@ public partial class GameManager : MonoBehaviour {
   public Vector3 shipSpawnPoint;
   public List<GameObject> coins = new List<GameObject>();
   public bool shipRefueling = false;
+
+  public delegate void CoinAddedEvent(GameObject coin);
+  public static event CoinAddedEvent coinAddedEvent;
 
   void Awake(){
     if (instance == null){
@@ -58,6 +61,14 @@ public partial class GameManager : MonoBehaviour {
     if (clockRunning) {
       clock += Time.deltaTime;
     }
+  }
+
+  public void AddCoin(GameObject coin){
+    coins.Add(coin);
+    if (coinAddedEvent != null) {
+      coinAddedEvent(coin);  
+    }
+    coin.SetActive(false);
   }
 
   public Vector3 FocalPoint(){

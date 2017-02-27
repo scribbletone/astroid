@@ -155,8 +155,7 @@ public partial class Ship : MonoBehaviour {
 
   void OnTriggerEnter2D(Collider2D other) {
     if (other.gameObject.tag == "Coin"){
-      other.gameObject.SetActive(false);
-      game.coins.Add(other.gameObject);
+      game.AddCoin(other.gameObject);
     }
     if (other.gameObject.tag == "FuelStation"){
       other.GetComponent<FuelStation>().shipTouching = true;
