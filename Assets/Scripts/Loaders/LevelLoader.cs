@@ -4,35 +4,49 @@ using System.Collections;
 public class LevelLoader : MonoBehaviour {
   public GameObject ship;
   public GameObject shipSpawnPointObject;
+  public GameObject coins;
+  public GameObject forceFields;
+
   private GameManager game;
 
   void Start(){
     game = GameManager.instance;
     SpawnShip();
     game.ResetAttributes();
-    game.HandleRestartScene = Restart;
+    GameManager.resetSceneEvent += Reset;
+  }
+
+  void OnDestroy() {
+    GameManager.resetSceneEvent -= Reset;
   }
 
   void Update(){
-    RestartListener();
+    ResetListener();
   }
 
-  void Restart(){
-    ReactivateItems();
-    ship.GetComponent<Ship>().Reset();
+  void Reset(){
     game.ResetAttributes();
   }
 
-  void RestartListener(){
+  void ResetListener(){
     if (Control.IsPressed("restart"))
      {
-       game.RestartScene(0);
+       game.ResetScene(0);
      }
   }
 
-  void ReactivateItems(){
-    for (int i = 0; i < game.coins.Count; i++) {
-      game.coins[i].SetActive(true);
+  void ResetCoins(){
+    Coin[] coinList = coins.GetComponentsInChildren<Coin>(true);
+
+    foreach(Coin coin in coinList) {
+      coin.Reset();
+    }
+  }
+
+  void ResetForceFields(){
+    ForceField[] forceFieldList = forceFields.GetComponentsInChildren<ForceField>(true);
+    foreach(ForceField forceField in forceFieldList) {
+      forceField.Reset();
     }
   }
 

@@ -10,13 +10,14 @@ public class LevelUI : MonoBehaviour {
   public Text hullText;
   public Slider fuelBar;
   public Slider hullBar;
+  public GameObject coinIndicators;
 
   private GameManager game;
 
   void Start (){
     game = GameManager.instance;
   }
-
+  
   void Update () {
     UpdateFuel();
     UpdateClock();

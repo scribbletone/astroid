@@ -13,7 +13,7 @@ public class LevelTitleLoader : MonoBehaviour {
   void ReadyListener(){
     if (Control.IsPressed("thrust"))
      {
-       SceneManager.LoadScene("Level" + game.level);
+       SceneManager.LoadScene("Level_" + game.level);
      }
   }
 

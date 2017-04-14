@@ -11,9 +11,26 @@ public class FuelStation : MonoBehaviour {
     game = GameManager.instance;	
     animator = GetComponent<Animator>();
 	}
-	
-	void Update () {
-    bool shouldAnimate = shipTouching && game.shipRefueling;
-    animator.SetBool("refueling", shouldAnimate);
-	}
+
+  void OnTriggerExit2D(Collider2D other) {
+    if (other.gameObject.tag == "Player"){
+      animator.SetBool("refueling", false);
+    }
+  }
+
+  void OnTriggerStay2D(Collider2D other) {
+    if (other.gameObject.tag == "Player"){
+      Ship ship = other.gameObject.GetComponent<Ship>();
+
+      if (ship.alive) {
+        ship.AdjustFuel(1f);
+      }
+
+      if (game.shipRefueling) {
+        animator.SetBool("refueling", true);
+      } else {
+        animator.SetBool("refueling", false);
+      }
+    }
+  }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using CreativeSpore.SuperTilemapEditor;
 
 public partial class Ship : MonoBehaviour {
 
@@ -24,6 +25,9 @@ public partial class Ship : MonoBehaviour {
   private Animator refuelingAnimator;
   private GameManager game;
 
+  void OnDestroy() {     GameManager.resetSceneEvent -= Reset;
+  }
+
   void Start () {
     animator = GetComponent<Animator>();
     refuelingAnimator = refuelingSprite.GetComponent<Animator>();
@@ -31,6 +35,7 @@ public partial class Ship : MonoBehaviour {
     game = GameManager.instance;
     
     InitShipAttributes();
+    GameManager.resetSceneEvent += Reset;
   }
 
   public void Reset() {
@@ -101,7 +106,7 @@ public partial class Ship : MonoBehaviour {
     return force;
   }
 
-  void AdjustFuel(float inAmount){
+  public void AdjustFuel(float inAmount){
     float newFuelLevel = (inAmount / 20) + game.fuel;
 
     if (newFuelLevel > game.maxFuel) {
@@ -132,6 +137,8 @@ public partial class Ship : MonoBehaviour {
 
     if (game.hull <= 0){
       handleExplode();
+    } else if (inAmount < 0) {
+      AnimateDamage();
     }
   }
 
@@ -140,7 +147,7 @@ public partial class Ship : MonoBehaviour {
     Freeze();
     game.shipRefueling = false;
     Animate("exploding");
-    game.RestartScene(2f);
+    game.ResetScene(2f);
   }
 
   void LimitRotation(){
@@ -152,31 +159,9 @@ public partial class Ship : MonoBehaviour {
     }
   }
 
-  void OnTriggerEnter2D(Collider2D other) {
-    if (other.gameObject.tag == "Coin"){
-      other.gameObject.SetActive(false);
-      game.coins.Add(other.gameObject);
-    }
-    if (other.gameObject.tag == "FuelStation"){
-      other.GetComponent<FuelStation>().shipTouching = true;
-    }
-  }
-
-  void OnTriggerExit2D(Collider2D other) {
-    if (other.gameObject.tag == "FuelStation"){
-      other.GetComponent<FuelStation>().shipTouching = false;
-    }
-  }
-
-  void OnTriggerStay2D(Collider2D other) {
-    if (other.gameObject.tag == "FuelStation" && alive){
-      AdjustFuel(1f);
-    }
-  }
-
   void OnCollisionEnter2D(Collision2D other) {
-
-    if (other.gameObject.tag == "Wall"){
+    Tilemap tilemap = other.gameObject.GetComponentInParent<Tilemap>();
+    if (tilemap != null){
       float damage = other.relativeVelocity.magnitude;
       damage = damage * damage * -1f;
       if (damage > -1)
