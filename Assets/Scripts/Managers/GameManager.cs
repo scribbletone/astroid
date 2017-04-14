@@ -7,9 +7,7 @@ public partial class GameManager : MonoBehaviour {
   public static GameManager instance = null;
   
   public int level = 1;
-  public delegate void RestartSceneDelegate(); 
-  public RestartSceneDelegate HandleRestartScene;
-
+  
   public GameObject focalObject;
 
   public bool clockRunning = true;
@@ -22,6 +20,15 @@ public partial class GameManager : MonoBehaviour {
   public List<GameObject> coins = new List<GameObject>();
   public bool shipRefueling = false;
 
+  public delegate void CoinAddedEvent(GameObject coin);
+  public static event CoinAddedEvent coinAddedEvent;
+
+  public delegate void ResetSceneEvent();
+  public static event ResetSceneEvent resetSceneEvent;
+
+  public delegate void MajorDamageTakenEvent();
+  public static event MajorDamageTakenEvent majorDamageTakenEvent;
+
   void Awake(){
     if (instance == null){
       instance = this;
@@ -31,16 +38,16 @@ public partial class GameManager : MonoBehaviour {
     DontDestroyOnLoad(gameObject);
   }
 
-  void Start(){
+  public void ResetScene(float waitTime){
+    StartCoroutine(ResetSceneTimer(waitTime));
   }
 
-  public void RestartScene(float waitTime){
-    StartCoroutine(RestartSceneTimer(waitTime));
-  }
-
-  IEnumerator RestartSceneTimer(float waitTime){
+  IEnumerator ResetSceneTimer(float waitTime){
     yield return new WaitForSeconds(waitTime);
-    HandleRestartScene();
+
+    if (resetSceneEvent != null) {
+      resetSceneEvent();
+    }
   }
 
   public void ResetAttributes(){
@@ -57,6 +64,20 @@ public partial class GameManager : MonoBehaviour {
   void UpdateClock(){
     if (clockRunning) {
       clock += Time.deltaTime;
+    }
+  }
+
+  public void AddCoin(GameObject coin){
+    coins.Add(coin);
+    if (coinAddedEvent != null) {
+      coinAddedEvent(coin);  
+    }
+    coin.SetActive(false);
+  }
+
+  public void HandleTakeMajorDamage(){
+     if (majorDamageTakenEvent != null) {
+      majorDamageTakenEvent();
     }
   }
 
