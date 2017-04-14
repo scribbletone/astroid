@@ -121,7 +121,7 @@ public partial class Ship : MonoBehaviour {
       game.shipRefueling = false;
     }
 
-    game.fuel = newFuelLevel;
+    // game.fuel = newFuelLevel;
   }
 
   public void AdjustHull(float inAmount){
