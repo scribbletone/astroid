@@ -21,6 +21,8 @@ public partial class Ship : MonoBehaviour {
   private Rigidbody2D rigidShip;
   private float verticalVelocity;
   private float horizontalVelocity;
+  private float prevVerticalVelocity = 0;
+  private float prevHorizontalVelocity = 0;
   private Vector3 directionVector;
   private Animator animator;
   private Animator refuelingAnimator;
@@ -69,10 +71,10 @@ public partial class Ship : MonoBehaviour {
 
   void MoveShipFromInput(){
     if (alive) {
-      moveVertical();
+      setVelocities();
+      
       moveHorizontal();
-
-      rigidShip.velocity = Vector3.ClampMagnitude(rigidShip.velocity, vMaxVelocity);
+      moveVertical();
 
       if (verticalVelocity > 0){
         Animate("thrustingForward");
@@ -94,10 +96,10 @@ public partial class Ship : MonoBehaviour {
 
   void setVerticalVelocity() {
     bool active = Control.IsPressed("thrust");
-    bool underSpeedLimit = rigidShip.velocity.y < vMaxVelocity;
+    // bool underSpeedLimit = rigidShip.velocity.y < vMaxVelocity;
     float force = 0f;
 
-    if (active && underSpeedLimit && (game.fuel > 0)) {
+    if (active && (game.fuel > 0)) {
       force = 1f;
     }
     force *= vSpeed;
@@ -107,20 +109,41 @@ public partial class Ship : MonoBehaviour {
 
   void setHorizontalVelocity() {
     float force = Control.HorizontalVal();
+    force = dampenForce(force, prevHorizontalVelocity);
+    prevHorizontalVelocity = force;
     horizontalVelocity = force * hSpeed;
   }
 
+  float dampenForce(float force, float prevForce) {
+    if (Mathf.Abs(force) > 0) {
+      return force;
+    } else if (Mathf.Abs(prevForce) > .1f) {
+      return prevForce * 0.95f;
+    } else {
+      return 0;
+    }
+  }
+
   void moveVertical(){
-    setVerticalVelocity();
     rigidShip.AddForce(transform.up * verticalVelocity);
+    limitVerticalSpeed();
   }
 
   void moveHorizontal(){
-    setHorizontalVelocity();
-
-    Vector3 velocity = rigidShip.velocity;
+    Vector2 velocity = rigidShip.velocity;
     velocity.x = horizontalVelocity;
     rigidShip.velocity = velocity;
+  }
+
+  void limitVerticalSpeed(){
+    Vector3 velocity = rigidShip.velocity;
+    if (velocity.y > vMaxVelocity) {
+      velocity.y = vMaxVelocity;
+      rigidShip.velocity = velocity;
+    } else if (velocity.y < (-9f)) {
+      velocity.y = -9f;
+      rigidShip.velocity = velocity;
+    }
   }
 
   public void AdjustFuel(float inAmount){
