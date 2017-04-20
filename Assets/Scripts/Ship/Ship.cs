@@ -7,19 +7,20 @@ using CreativeSpore.SuperTilemapEditor;
 
 public partial class Ship : MonoBehaviour {
 
-  public float speed = 0.3f;
+  public float vSpeed = 5f;
+  public float hSpeed = 8f;
   public float torque = 4f;
-  public float maxVelocity = 1.5f;
+  public float vMaxVelocity = 10f;
+  public float hMaxVelocity = 1f;
   public float maxAngularVelocity = 20f;
   public float initFuel = 10f;
   public float initMaxFuel = 10f;
   public GameObject refuelingSprite;
   public bool alive = true;
 
-  private float speedBoost = 2f;
   private Rigidbody2D rigidShip;
-  private float verticalForce;
-  private float horizontalForce;
+  private float verticalVelocity;
+  private float horizontalVelocity;
   private Vector3 directionVector;
   private Animator animator;
   private Animator refuelingAnimator;
@@ -42,7 +43,7 @@ public partial class Ship : MonoBehaviour {
     alive = true;
     Halt();
     transform.eulerAngles = new Vector3(0, 0, 0);
-    rigidShip.constraints = RigidbodyConstraints2D.None;
+    rigidShip.constraints = RigidbodyConstraints2D.FreezeRotation;
     transform.position = game.shipSpawnPoint;
     Animate("idle");
   }
@@ -68,42 +69,58 @@ public partial class Ship : MonoBehaviour {
 
   void MoveShipFromInput(){
     if (alive) {
-      verticalForce = ForwardThrust();
-      horizontalForce = Control.HorizontalVal();
+      moveVertical();
+      moveHorizontal();
 
-      if (game.fuel <= 0) {
-        verticalForce = 0;
-        horizontalForce = horizontalForce * 0.1f;
-      }
+      rigidShip.velocity = Vector3.ClampMagnitude(rigidShip.velocity, vMaxVelocity);
 
-      rigidShip.AddForce(transform.up * verticalForce * speed * speedBoost);
-      rigidShip.AddTorque(torque * horizontalForce * -1f);
-
-      rigidShip.velocity = Vector3.ClampMagnitude(rigidShip.velocity, maxVelocity * speedBoost);
-      LimitRotation();
-
-      if (verticalForce > 0){
+      if (verticalVelocity > 0){
         Animate("thrustingForward");
         AdjustFuel(-1f);
-      } else if (horizontalForce < 0){
-        Animate("rotatingLeft");
-      } else if (horizontalForce > 0){
-        Animate("rotatingRight");
+      } else if (horizontalVelocity < 0){
+        Animate("idle");
+      } else if (horizontalVelocity > 0){
+        Animate("idle");
       } else {
         Animate("idle");
       } 
     }
   }
 
-  float ForwardThrust() {
+  void setVelocities(){
+    setVerticalVelocity();
+    setHorizontalVelocity();
+  }
+
+  void setVerticalVelocity() {
     bool active = Control.IsPressed("thrust");
+    bool underSpeedLimit = rigidShip.velocity.y < vMaxVelocity;
     float force = 0f;
 
-    if (active) {
+    if (active && underSpeedLimit && (game.fuel > 0)) {
       force = 1f;
     }
+    force *= vSpeed;
 
-    return force;
+    verticalVelocity = force;
+  }
+
+  void setHorizontalVelocity() {
+    float force = Control.HorizontalVal();
+    horizontalVelocity = force * hSpeed;
+  }
+
+  void moveVertical(){
+    setVerticalVelocity();
+    rigidShip.AddForce(transform.up * verticalVelocity);
+  }
+
+  void moveHorizontal(){
+    setHorizontalVelocity();
+
+    Vector3 velocity = rigidShip.velocity;
+    velocity.x = horizontalVelocity;
+    rigidShip.velocity = velocity;
   }
 
   public void AdjustFuel(float inAmount){
@@ -166,7 +183,7 @@ public partial class Ship : MonoBehaviour {
       damage = damage * damage * -1f;
       if (damage > -1)
         damage = 0;
-      AdjustHull(damage);
+      // AdjustHull(damage);
     }
     
   }
